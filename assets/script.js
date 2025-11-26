@@ -1,68 +1,180 @@
-// Просте завантаження header & footer
+// ======= partial loader (header/footer) =======
 function loadPartial(selector, url){
-    fetch(url)
-      .then(r => r.text())
-      .then(html => {
-        document.querySelector(selector).innerHTML = html;
-        // після вставки ініціалізація локальної логіки, наприклад перемикання мови
-        if(selector === '#header-placeholder') initHeader();
-      })
-      .catch(err => console.warn('Partial load failed:', err));
-  }
-  
-  loadPartial('#header-placeholder','partials/header.html');
-  loadPartial('#footer-placeholder','partials/footer.html');
-  
-  // LANGUAGE
-  const defaultLang = localStorage.getItem('lang') || 'ua';
-  const langSelect = () => document.getElementById('lang-switch');
-  
-  function applyLang(lang){
-    fetch(`/lang/${lang}.json`)
-      .then(r => r.json())
-      .then(dict => {
-        document.querySelectorAll('[data-i18n]').forEach(el=>{
-          const key = el.getAttribute('data-i18n');
-          if(dict[key]) el.textContent = dict[key];
-        });
-        // also set IDs keys
-        for(const k in dict){
-          const el = document.getElementById(k);
-          if(el) el.textContent = dict[k];
-        }
-        localStorage.setItem('lang', lang);
+  fetch(url, {cache: "no-store"})
+    .then(r => {
+      if(!r.ok) throw new Error('Partial not found');
+      return r.text();
+    })
+    .then(html => {
+      document.querySelector(selector).innerHTML = html;
+      if(selector === '#header-placeholder') initHeader();
+      // set footer year if footer loaded
+      if(selector === '#footer-placeholder'){
+        const yEl = document.getElementById('year');
+        if(yEl) yEl.textContent = new Date().getFullYear();
+      }
+    })
+    .catch(err => {
+      console.warn('Partial load failed:', err);
+      // fallback: insert minimal header/footer so site doesn't break
+      if(selector === '#header-placeholder'){
+        document.querySelector(selector).innerHTML = '<header class="site-header"><div class="wrap"><a class="logo" href="index.html">Composer</a></div></header>';
+      }
+    });
+}
+
+loadPartial('#header-placeholder','partials/header.html');
+loadPartial('#footer-placeholder','partials/footer.html');
+
+
+// ======= language =======
+const defaultLang = localStorage.getItem('lang') || 'ua';
+
+function applyLang(lang){
+  fetch(`/lang/${lang}.json`, {cache: "no-store"})
+    .then(r => r.json())
+    .then(dict => {
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(dict[key]) el.textContent = dict[key];
       });
-  }
-  
-  // init header actions (called after header partial loaded)
-  function initHeader(){
-    const menuToggle = document.getElementById('menu-toggle');
-    const nav = document.querySelector('.main-nav');
-    if(menuToggle){
-      menuToggle.addEventListener('click', ()=> nav.classList.toggle('open'));
-    }
-  
-    const ls = document.getElementById('lang-switch');
-    if(ls){
-      ls.value = localStorage.getItem('lang') || defaultLang;
-      ls.addEventListener('change', e => applyLang(e.target.value));
-    }
-  
-    // set current year in footer if available
-    const year = new Date().getFullYear();
-    const yEl = document.getElementById('year');
-    if(yEl) yEl.textContent = year;
-  }
-  
-  // apply initial language
-  applyLang(defaultLang);
-  
-  // example contact form handler (static site can use Formspree or Netlify forms)
-  const contactForm = document.getElementById('contact-form');
-  if(contactForm){
-    contactForm.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      alert('Функціонал відправки форми не підключено. Використайте Formspree або Netlify Forms для production.');
+      for(const k in dict){
+        const el = document.getElementById(k);
+        if(el) el.textContent = dict[k];
+      }
+      localStorage.setItem('lang', lang);
+    })
+    .catch(()=>{ console.warn('Lang file not found'); });
+}
+
+
+// ======= init header (menu + lang) =======
+function initHeader(){
+  const menuToggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('main-nav');
+  if(menuToggle && nav){
+    menuToggle.addEventListener('click', ()=>{
+      nav.classList.toggle('open');
+    });
+    // close menu on click outside (mobile)
+    document.addEventListener('click', (e)=>{
+      if(!nav.contains(e.target) && !menuToggle.contains(e.target)){
+        nav.classList.remove('open');
+      }
     });
   }
-  
+
+  const ls = document.getElementById('lang-switch');
+  if(ls){
+    ls.value = localStorage.getItem('lang') || defaultLang;
+    ls.addEventListener('change', e => applyLang(e.target.value));
+  }
+  // apply initial lang
+  applyLang(localStorage.getItem('lang') || defaultLang);
+}
+
+
+// ======= Contact form basic handler =======
+document.addEventListener('submit', (e)=>{
+  if(e.target && e.target.id === 'contact-form'){
+    e.preventDefault();
+    alert('Форма демонстраційна. Підключіть Formspree / Netlify або бекенд для реальної відправки.');
+  }
+});
+
+
+// ======= Media embed loader with fallback =======
+// usage: provide container with data attributes for youtube and soundcloud:
+// <div id="media-block" data-youtube="VIDEO_OR_PLAYLIST_ID" data-sc="SOUNDCLOUD_URL"></div>
+
+function loadMediaEmbeds() {
+  document.querySelectorAll('[data-yt-id], [data-sc-url]').forEach(el=>{
+    // YouTube embed
+    const yt = el.getAttribute('data-yt-id');
+    if(yt){
+      // If looks like playlist (starts with PL) use listType=playlist
+      let src;
+      if(/^PL|^UU|^LL|^FL/.test(yt) || yt.includes('list=')) {
+        // if full url passed, leave it
+        if(yt.includes('http')) src = yt;
+        else src = `https://www.youtube.com/embed?listType=playlist&list=${encodeURIComponent(yt)}`;
+      } else {
+        src = `https://www.youtube.com/embed/${encodeURIComponent(yt)}`;
+      }
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'embed';
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.style.width = '100%';
+      iframe.style.height = '300px';
+      iframe.style.border = '0';
+      // try to detect load failure — we use timeout as fallback
+      let loaded = false;
+      iframe.addEventListener('load', ()=> { loaded = true; });
+      // append iframe
+      wrapper.appendChild(iframe);
+
+      // after 2s check if loaded; if not — show fallback
+      setTimeout(()=>{
+        if(!loaded){
+          const link = document.createElement('a');
+          link.href = `https://youtube.com/watch?v=${yt}`;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.className = 'btn';
+          link.textContent = 'Відкрити на YouTube';
+          // clear and show fallback
+          wrapper.innerHTML = '';
+          wrapper.appendChild(link);
+        }
+      }, 1800);
+
+      el.appendChild(wrapper);
+    }
+
+    // SoundCloud embed
+    const sc = el.getAttribute('data-sc-url');
+    if(sc){
+      const wrapperSc = document.createElement('div');
+      wrapperSc.className = 'embed';
+      // SoundCloud embed widget:
+      const scIframe = document.createElement('iframe');
+      // if user passed raw link or track id, accept link form
+      const scUrl = sc.startsWith('http') ? sc : `https://soundcloud.com/${sc}`;
+      // build player src
+      scIframe.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(scUrl) + '&auto_play=false';
+      scIframe.width = '100%';
+      scIframe.height = '166';
+      scIframe.scrolling = 'no';
+      scIframe.frameBorder = 'no';
+      scIframe.loading = 'lazy';
+      let scLoaded = false;
+      scIframe.addEventListener('load', ()=> scLoaded = true);
+      wrapperSc.appendChild(scIframe);
+
+      setTimeout(()=>{
+        if(!scLoaded){
+          const link = document.createElement('a');
+          link.href = scUrl;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.className = 'btn';
+          link.textContent = 'Відкрити на SoundCloud';
+          wrapperSc.innerHTML = '';
+          wrapperSc.appendChild(link);
+        }
+      }, 1800);
+
+      el.appendChild(wrapperSc);
+    }
+  });
+}
+
+// Run media loader when DOM ready
+document.addEventListener('DOMContentLoaded', loadMediaEmbeds);
+// Also re-run after partials loaded (in case media block is inside page partial)
+setTimeout(loadMediaEmbeds, 1000);
