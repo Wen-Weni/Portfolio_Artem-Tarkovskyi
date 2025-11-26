@@ -338,4 +338,32 @@
       flex-direction: column-reverse;
     }
   }
+/* Mobile nav when open */
+.main-nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* mobile: hide nav by default, show when .open */
+@media (max-width:900px){
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    right: 20px;
+    background: rgba(0,0,0,0.55);
+    padding: 12px;
+    border-radius: 10px;
+    flex-direction: column;
+    min-width: 180px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  }
+  .main-nav.open {
+    display: flex;
+  }
+  .main-nav a { padding: 8px 6px; }
+  .menu-toggle { display: inline-block; }
+}
+
   
