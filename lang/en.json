@@ -1,21 +1,65 @@
 {
-    "nav-home":"Home",
-    "nav-about":"About",
-    "nav-music":"Music",
-    "nav-contact":"Contact",
-    "hero-title":"Japanese-Jazz Composer",
-    "hero-sub":"Original compositions & guitar arrangements",
-    "f1-title":"Biography",
-    "f1-text":"Short info about the musical path...",
-    "works-title":"Recent Works",
-    "music-page-title":"Music",
-    "about-title":"About the composer",
-    "contact-title":"Contacts",
-    "label-name":"Name",
-    "label-email":"Email",
-    "label-message":"Message",
-    "send-btn":"Send",
-    "footer-links":"Links",
-    "footer-contact":"Contact"
-  }
+    "rotating-sub-1": "Guitarist",
+    "rotating-sub-2": "Arranger",
+    "rotating-sub-3": "Pianist",
+    "rotating-sub-4": "Composer",
   
+    "hero-sub": "Original compositions and arrangements for guitar",
+  
+    "genre-jpop": "Japanese Pop Music",
+    "genre-jazz": "Jazz",
+    "genre-romantic": "Romantic Music Direction",
+    
+    "works-count-text": "Original Works",
+    "arr-count-text": "Arrangement",
+  
+    "cta-listen": "Listen",
+    "cta-about": "About Me",
+    
+    "f1-title": "Biography",
+    "f1-text": "I've been involved in music since the age of 9, and started writing my own compositions at 15. After graduating from music school as a classical guitarist, I continued to develop as a pianist and composer.",
+  
+    "f2-title": "Styles",
+    "f2-text-p": "In my creative practice, I combine influences from Japanese pop music, jazz, and romantic music, forming my own individual style.",
+  
+    "f3-title": "Contact",
+  
+    "works-title": "Latest Works",
+    "card-btn-listen": "Listen",
+  
+    "about-title": "About the Composer",
+    "about-text-1": "I've been involved in music since the age of 9, and started writing my own compositions at 15. After graduating from music school as a classical guitarist, I continued to develop as a pianist and composer.",
+    "about-text-2": "I participated in creating a song for the album Why don't you eat MONACA? and currently authored twelve original works and one arrangement. In my creative practice, I combine influences from Japanese pop music, jazz, and romantic music, forming my own individual style.",
+  
+    "aside-works-with-title": "I work with:",
+    "aside-li-1": "Guitars (acoustic, electric, bass)",
+    "aside-li-2": "Pianos and Keyboards",
+    "aside-li-3": "Synthesizers",
+    "aside-li-4": "Wind and String instruments",
+    "aside-li-5": "Percussion instruments (drums, percussion)",
+    "aside-li-6": "A combination of acoustic and electronic instruments",
+  
+    "aside-faq-title": "FAQ",
+    "aside-faq-q1": "Do you accept arrangement orders?",
+    "aside-faq-a1": "Yes — describe the project and deadlines, and we'll agree on the price.",
+    "aside-faq-q2": "What genres do you work with?",
+    "aside-faq-a2": "Primarily instrumental, jazz, and pop arrangements in a romantic aesthetic.",
+    "aside-faq-q3": "Do you work with vocalists?",
+    "aside-faq-a3": "Yes, I am open to collaboration.",
+    
+    "nav-home": "Home",
+    "nav-music": "Music",
+    
+    "footer-composer-title": "Composer",
+    "footer-composer-text": "Japanese-Jazz composer • Arrangements • Soundtracks",
+    "footer-links": "Links",
+    "footer-contact": "Contact",
+    
+    "music-page-title": "YouTube — Playlist",
+    "arrangements-title": "Arrangements",
+    "arrangements-text": "Description about guitar arrangements, sheet music ().",
+    "support-title": "Support / Ko-fi",
+    "support-btn-1": "Support on Ko-fi",
+    "support-btn-2": "Ko-fi Shop",
+    "soundcloud-title": "SoundCloud"
+  }
