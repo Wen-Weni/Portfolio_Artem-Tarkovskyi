@@ -6,36 +6,91 @@
   <title>Portfolio — Composer</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
+<style>
+  /* Стилі для посилань в параграфах, включаючи адресу artemtarkomusic@gmail.com */
+p a {
+    color: var(--stat-blue);        /* Колір, як у параграфа (не синій) */
+    text-decoration: none;      /* ПРИБРАНО: Підкреслення відсутнє */
+    transition: color 0.2s;
+}
+
+p a:hover {
+    color: var(--text);         /* Колір стає світлішим при наведенні курсора */
+    text-decoration: none;      /* ПРИБРАНО: Підкреслення відсутнє навіть при наведенні */
+}
+</style>
 <body>
   <div id="header-placeholder"></div>
-
+  
   <main class="container">
-    <section class="hero">
-      <div class="hero-left">
-        <h1 id="hero-title">Japanese-Jazz Composer</h1>
-        <p id="hero-sub">Авторські композиції та аранжування для гітари</p>
+  <section class="hero reveal" id="hero">
+  
+    <div class="hero-left">
+      <h1 id="hero-title">
+        <span class="main">Artem Tarkovskyi</span>
+        <span class="rotating" id="rotating-sub">Guitarist</span>
+      </h1>
+  
+      <p id="hero-sub">Авторські композиції та аранжування для гітари</p>
+      
+      <article>
+        <div class="genre" style="margin-top:10px;">
+          <span class="pill jpop"><span class="dot"></span><span data-i18n="genre-jpop">японська поп-музика</span></span>
+          <span class="pill jazz"><span class="dot"></span><span data-i18n="genre-jazz">джаз</span></span>
+          <span class="pill romantic"><span class="dot"></span><span data-i18n="genre-romantic">музика романтичного напряму</span></span>
+        </div>
+      </article>
+  
+      <div class="stats" style="margin-top:16px;">
+        <div class="stat">
+          <div>
+            <div class="n" id="works-count">12</div>
+            <small data-i18n="works-count-text">оригінальних творів</small>
+          </div>
+        </div>
+        <div class="stat">
+          <div>
+            <div class="n" id="arr-count">1</div>
+            <small data-i18n="arr-count-text">аранжування</small>
+          </div>
+        </div>
+  
         <div class="cta">
           <a class="btn" href="music.html" id="cta-listen">Слухати</a>
-          <a class="btn ghost" href="about.html" id="cta-about">Про мене</a>
+          <a class="btn ghost" href="#about" id="cta-about">Про мене</a>
         </div>
       </div>
-      <div class="hero-right">
-        <img src="assets/images/avatar.jpg" alt="composer photo" class="avatar">
-      </div>
-    </section>
+    </div>
+  
+    <div class="hero-right">
+      <img src="assets/images/avatar.jpg" alt="composer photo" class="avatar">
+    </div>
+  
+  </section>
+  </main>
+
+
+  <main class="container">
 
     <section class="features">
       <article>
         <h3 id="f1-title">Біографія</h3>
-        <p id="f1-text">Коротка інформація про творчий шлях...</p>
+        <p id="f1-text">Займаюся музикою з 9 років, а власні твори почав писати у 15 років. 
+          Закінчивши музичну школу як класичний гітарист, продовжував розвиватися як 
+          піаніст та композитор.</p>
       </article>
       <article>
         <h3 id="f2-title">Стилі</h3>
-        <p id="f2-text">Японська музика, джаз, аранжування для гітари</p>
+        <p data-i18n="f2-text-p">У своїй творчій практиці поєдную впливи японської поп-музики, джазу та музики романтичного напряму, формуючи власний індивідуальний стиль.</p>
+        </div>
       </article>
       <article>
         <h3 id="f3-title">Контакти</h3>
-        <p id="f3-text">Соцмережі, замовлення, Ko-fi</p>
+        <p id="f3-text">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=artemtarkomusic@gmail.com" target="_blank">
+              artemtarkomusic@gmail.com
+          </a>
+        </p>
       </article>
     </section>
 
@@ -43,20 +98,113 @@
       <h2 id="works-title">Останні роботи</h2>
       <div class="cards">
         <div class="card">
-          <img src="assets/images/cover1.jpg" alt="">
-          <h4>Композиція A</h4>
-          <a href="music.html" class="btn small">Слухати</a>
+          <img src="assets/images/MONACA.png" alt="">
+          <h4>Why don't you eat MONACA?</h4>
+          <a href="https://www.youtube.com/@ArtemTarkovskyi/featured" class="btn small" id="cta-listen">Слухати</a>
         </div>
         <div class="card">
-          <img src="assets/images/cover2.jpg" alt="">
-          <h4>Аранжування B</h4>
-          <a href="music.html" class="btn small">Слухати</a>
+          <img src="assets/images/channels4_profile.jpg" alt="">
+          <h4>YouTube</h4>
+          <a href="https://www.youtube.com/@ArtemTarkovskyi/featured" class="btn small" id="cta-listen">Слухати</a>
         </div>
       </div>
     </section>
   </main>
 
+  <main class="container">
+    <section class="about" id="about">
+      <div class="about-left">
+        <h1 id="about-title">Про композитора</h1>
+        <p id="about-text" data-i18n="about-text-1">
+          Займаюся музикою з 9 років, 
+          а власні твори почав писати у 15 років. Закінчивши музичну школу 
+          як класичний гітарист, я продовжив розвиватися також як піаніст та композитор.
+        </p>
+        <p id="about-text" data-i18n="about-text-2">
+          Я брав участь у створенні пісні для альбому Why don't you eat MONACA? і на 
+          даний момент є автором дванадцяти оригінальних творів та одного аранжування. 
+          У своїй творчій практиці поєдную впливи японської поп-музики, джазу та музики 
+          романтичного напряму, формуючи власний індивідуальний стиль.</p>
+      </div>
+  
+      <div class="about-right">
+        <img src="assets/images/avatar.jpg" alt="avatar" class="avatar-large">
+      </div>
+    </section>
+    <aside>
+      <div class="card-panel">
+        <h4 style="margin:0 0 8px 0;">Працюю з:</h4>
+        <ul style="margin:0;color:var(--muted-2);padding-left:18px;">
+          <li data-i18n="aside-li-1">Гітарами (акустичні, електрогітари, бас-гітари)</li>
+          <li data-i18n="aside-li-2">Фортепіано та клавішними інструментами</li>
+          <li data-i18n="aside-li-3">Синтезаторами</li>
+          <li data-i18n="aside-li-4">Духовими та смичковими інструментами</li>
+          <li data-i18n="aside-li-5">Ударними інструментами (барабани, перкусія)</li>
+          <li data-i18n="aside-li-6">Поєднанням акустичних і електронних інструментів</li>
+        </ul>
+      </div>
+
+      <div class="card-panel" style="margin-top:12px;">
+        <h4 style="margin:0 0 8px 0;">FAQ</h4>
+        <div class="faq">
+          <details><summary data-i18n="aside-faq-q1">Чи приймаєте замовлення на аранжування?</summary><div style="padding-top:8px;color:var(--muted-2)">Так — пишіть проєкт і терміни, узгодимо вартість.</div></details>
+          <details><summary data-i18n="aside-faq-q2">Які жанри обробляєте?</summary><div style="padding-top:8px;color:var(--muted-2)">Переважно інструментальні, джазові і поп-аранжування у романтичній естетиці.</div></details>
+          <details><summary data-i18n="aside-faq-q3">Чи працюєте з вокалістами?</summary><div style="padding-top:8px;color:var(--muted-2)">Так, відкритий до співпраці.</div></details>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+
+
   <div id="footer-placeholder"></div>
+  
+  <script>
+    /* ------------- JS: смена подзаголовка, reveal и мини-параллакс ------------- */
+
+    // rotating subtitles
+    (function(){
+      const words = ["Guitarist","Arranger","Pianist","Composer"];
+      // Додаємо масив кольорів для кожного слова
+      const colors = ["#4aa0ff", "#ff8fc1", "#ffb86b", "#8b6cff"]; 
+      
+      let i = 0;
+      const el = document.getElementById('rotating-sub');
+      if(!el) return;
+      
+      // Встановлюємо початковий колір
+      el.style.color = colors[0]; 
+
+      setInterval(() => {
+        i = (i+1) % words.length;
+        el.style.opacity = 0;
+        
+        setTimeout(()=> {
+          el.textContent = words[i];
+          
+          // >>> ДОДАНО: Зміна кольору перед появою тексту
+          el.style.color = colors[i]; 
+          
+          el.style.opacity = 1;
+        }, 250);
+      }, 3000);
+    })();
+
+    // reveal on load + simple intersection observer
+    document.addEventListener('DOMContentLoaded', () => {
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(e.isIntersecting) {
+            e.target.classList.add('show');
+            io.unobserve(e.target);
+          }
+        });
+      }, {threshold: 0.12});
+      reveals.forEach(r => io.observe(r));
+    });
+</script>
 
   <script src="assets/script.js"></script>
 </body>
