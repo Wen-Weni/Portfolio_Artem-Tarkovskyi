@@ -31,6 +31,7 @@ loadPartial('#footer-placeholder','partials/footer.html');
 const defaultLang = localStorage.getItem('lang') || 'ua';
 
 function applyLang(lang){
+  const safeLang = lang.toLowerCase();
   fetch(`/lang/${lang}.json`, {cache: "no-store"})
     .then(r => r.json())
     .then(dict => {
@@ -175,3 +176,4 @@ function loadMediaEmbeds() {
 document.addEventListener('DOMContentLoaded', loadMediaEmbeds);
 // Also re-run after partials loaded (in case media block is inside page partial)
 setTimeout(loadMediaEmbeds, 1000);
+
