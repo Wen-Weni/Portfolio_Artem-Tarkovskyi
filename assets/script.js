@@ -1,3 +1,4 @@
+
 // ======= partial loader (header/footer) =======
 function loadPartial(selector, url){
   fetch(url, {cache: "no-store"})
@@ -26,7 +27,6 @@ function loadPartial(selector, url){
 loadPartial('#header-placeholder','partials/header.html');
 loadPartial('#footer-placeholder','partials/footer.html');
 
-
 // ======= language =======
 const defaultLang = localStorage.getItem('lang') || 'ua';
 
@@ -38,14 +38,20 @@ function applyLang(lang){
         const key = el.getAttribute('data-i18n');
         if(dict[key]) el.textContent = dict[key];
       });
+      // Додатковий цикл для елементів по ID (залишаємо як було)
       for(const k in dict){
-        const el = document.getElementById(k);
-        if(el) el.textContent = dict[k];
-      }
+       const el = document.getElementById(k);
+      // Уникаємо перезапису rotating-sub, оскільки його обробляє окрема функція
+        if(el && k !== 'rotating-sub') el.textContent = dict[k];
+        }
+  
+        // Запускаємо ротацію підзаголовків з новими словами
+        startRotatingSubtitles(dict); 
+        
       localStorage.setItem('lang', lang);
-    })
-    .catch(()=>{ console.warn('Lang file not found'); });
-}
+      })
+      .catch(()=>{ console.warn('Lang file not found'); });
+  }
 
 
 // ======= init header (menu + lang) =======
@@ -72,15 +78,6 @@ function initHeader(){
   // apply initial lang
   applyLang(localStorage.getItem('lang') || defaultLang);
 }
-
-
-// ======= Contact form basic handler =======
-document.addEventListener('submit', (e)=>{
-  if(e.target && e.target.id === 'contact-form'){
-    e.preventDefault();
-    alert('Форма демонстраційна. Підключіть Formspree / Netlify або бекенд для реальної відправки.');
-  }
-});
 
 
 // ======= Media embed loader with fallback =======
