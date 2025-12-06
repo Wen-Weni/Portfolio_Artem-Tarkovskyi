@@ -28,32 +28,39 @@ loadPartial('#header-placeholder','partials/header.html');
 loadPartial('#footer-placeholder','partials/footer.html');
 
 // ======= language =======
-const defaultLang = localStorage.getItem('lang') || 'ua';
+// ======= language =======
+const defaultLang = localStorage.getItem('lang') || 'ua'; // Використовуємо 'ua' (нижній регістр)
 
 function applyLang(lang){
-  const safeLang = lang.toLowerCase();
-  fetch(`/lang/${lang}.json`, {cache: "no-store"})
-    .then(r => r.json())
-    .then(dict => {
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const key = el.getAttribute('data-i18n');
-        if(dict[key]) el.textContent = dict[key];
-      });
-      // Додатковий цикл для елементів по ID (залишаємо як було)
-      for(const k in dict){
-       const el = document.getElementById(k);
-      // Уникаємо перезапису rotating-sub, оскільки його обробляє окрема функція
-        if(el && k !== 'rotating-sub') el.textContent = dict[k];
-        }
   
-        // Запускаємо ротацію підзаголовків з новими словами
-        startRotatingSubtitles(dict); 
-        
-      localStorage.setItem('lang', lang);
-      })
-      .catch(()=>{ console.warn('Lang file not found'); });
-  }
-
+    // 1. Забезпечуємо нижній регістр: На серверах GitHub імена файлів чутливі до регістру.
+    const safeLang = lang.toLowerCase(); 
+    
+    // 2. Виправляємо шлях: Замінюємо абсолютний шлях (/lang/) на відносний (lang/)
+    // Щоб уникнути помилок, якщо сайт знаходиться в підпапці на GitHub Pages.
+    fetch(`lang/${safeLang}.json`, {cache: "no-store"}) 
+    // ^^^ ЗМІНЕНО: `/lang/${lang}.json` на `lang/${safeLang}.json`
+    
+        .then(r => r.json())
+        .then(dict => {
+          document.querySelectorAll('[data-i18n]').forEach(el=>{
+            const key = el.getAttribute('data-i18n');
+            if(dict[key]) el.textContent = dict[key];
+          });
+          // Додатковий цикл для елементів по ID (залишаємо як було)
+          for(const k in dict){
+           const el = document.getElementById(k);
+          // Уникаємо перезапису rotating-sub, оскільки його обробляє окрема функція
+            if(el && k !== 'rotating-sub') el.textContent = dict[k];
+            }
+      
+            // Запускаємо ротацію підзаголовків з новими словами
+            startRotatingSubtitles(dict); 
+            
+          localStorage.setItem('lang', lang);
+          })
+          .catch(()=>{ console.warn('Lang file not found'); });
+}
 
 // ======= init header (menu + lang) =======
 function initHeader(){
@@ -176,4 +183,5 @@ function loadMediaEmbeds() {
 document.addEventListener('DOMContentLoaded', loadMediaEmbeds);
 // Also re-run after partials loaded (in case media block is inside page partial)
 setTimeout(loadMediaEmbeds, 1000);
+
 
