@@ -10,8 +10,9 @@
   --container-max:1100px;
   --gap:18px;
   --stat-blue: #4aa0ff;
-  /* ВИПРАВЛЕНО: Додано відсутню змінну */
   --muted-2:#e0e0e0; 
+  --card-glow: 0 4px 12px rgba(0,0,0,0.25); 
+  --glass: rgba(255, 255, 255, 0.03);
 }
 
 * { box-sizing: border-box; }
@@ -215,13 +216,13 @@ p {
   padding: 12px;
   border-radius: 12px;
   width: 25%;
-}
-
-.card img {
-  width: 100%;
+  }
+  
+  .card img {
+    width: 100%; /* Забезпечує, що зображення займає всю ширину батьківського елемента */
+  height: auto; /* Додаємо, щоб зберегти пропорції зображення */
   border-radius: 8px;
-}
-
+  }
 
 
 /* ----------  MEDIA EMBEDS  ---------- */
@@ -301,11 +302,11 @@ p {
   height: 20px;
 }
 
-
-
-/* ----------  RESPONSIVE  ---------- */
+/* ----------  RESPONSIVE EXTENDED  ---------- */
 
 @media (max-width: 900px) {
+  /* ... ІСНУЮЧІ СТИЛІ ... */
+  
   .features {
       grid-template-columns: 1fr;
   }
@@ -318,34 +319,169 @@ p {
   .about {
       flex-direction: column-reverse;
   }
+  #music-page-title {
+    font-size: 28px; /* Трохи менше, ніж на десктопі */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  h2, h3 {
+      text-align: center;
+  }
+  
+  /* НОВІ СТИЛІ ДЛЯ МОБІЛЬНИХ (до 900px) */
+
+  /* Контейнер */
+  .container {
+      margin: 20px auto; /* Зменшуємо вертикальні відступи */
+      padding: 0 16px; /* Зменшуємо горизонтальні відступи */
+  }
+
+  /* Секція HERO */
+  .hero {
+      flex-direction: column; /* Змінюємо розташування з горизонтального на вертикальне */
+      padding: 20px;
+      gap: 20px;
+  }
+  .hero-right { 
+      width: 150px; /* Зменшуємо розмір аватара */
+      order: -1; /* Переміщуємо аватар вгору */
+  }
+  .hero-left {
+      text-align: center;
+  }
+  #hero-title {
+      justify-content: center; /* Вирівнюємо заголовок по центру */
+  }
+  h1 {
+      font-size: 24px; /* Зменшуємо розмір основного заголовка */
+  }
+  #hero-title .main {
+      font-size: 28px;
+  }
+
+  /* Статистика */
+  .stats {
+      justify-content: center; /* Центруємо блоки статистики */
+  }
+
+  /* Картки (Прев'ю робіт) */
+  .preview .cards {
+      flex-direction: column; /* Вертикальний стовпець на мобільному */
+      gap: 16px;
+  }
+  .card {
+      width: 100%; /* Картка займає всю ширину */
+  }
+
+  /* Секція About */
+  .about {
+      gap: 20px;
+  }
+  .about-right img {
+      width: 150px;
+      margin: 0 auto; /* Центруємо зображення */
+      display: block;
+  }
+
+  /* Footer */
+  .footer-grid .col {
+      min-width: 100%; /* Колонки футера займають всю ширину */
+  }
+  .embed, .soundcloud-track {
+    padding: 0; /* Прибираємо внутрішній відступ, якщо він був */
+    margin-bottom: 20px;
 }
+
+/* YouTube iframe */
+.embed iframe {
+    /* Забезпечуємо адаптивну висоту для YouTube, щоб не було великих чорних смуг */
+    height: 250px; 
+}
+
+/* Soundcloud iframe (висота зазвичай фіксована, але можна забезпечити менший відступ) */
+.soundcloud-track iframe {
+    margin-bottom: 0; 
+}
+
+/* Група кнопок Ko-fi */
+section h3 + .btn {
+    display: block; /* Робимо кнопки блочними, щоб вони займали всю ширину */
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Розділова лінія */
+hr {
+    margin: 40px 0;
+}
+
+aside {
+  flex-direction: column; /* Панелі стають стовпцем на мобільному */
+  gap: 16px; 
+  margin-top: 16px; 
+  align-items: flex-start;
+}
+
+.card-panel {
+  width: 100%; /* Кожна панель займає всю ширину */
+  padding: 16px;
+}
+
+/* Відновлюємо вертикальний відступ між панелями на мобільному */
+.card-panel + .card-panel {
+  margin-top: 0; /* Зберігаємо 0, оскільки відступ задається через gap в <aside> */
+}
+
+}
+
 
 /* Mobile nav when open */
-.main-nav {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-/* mobile: hide nav by default, show when .open */
 @media (max-width:900px){
+  /* ... ІСНУЮЧІ СТИЛІ ДЛЯ МЕНЮ ... */
+
   .main-nav {
       display: none;
       position: absolute;
       top: 64px;
-      right: 20px;
-      background: rgba(0,0,0,0.55);
+      right: 16px; /* Прив'язка до зменшеного padding контейнера */
+      background: var(--panel); /* Використовуємо змінну для фону */
       padding: 12px;
       border-radius: 10px;
       flex-direction: column;
       min-width: 180px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.06); /* Додаємо легку рамку */
   }
   .main-nav.open {
       display: flex;
   }
-  .main-nav a { padding: 8px 6px; }
+  .main-nav a { 
+      padding: 8px 6px; 
+      width: 100%;
+      text-align: center;
+  }
   .menu-toggle { display: inline-block; }
+  
+  /* Вирівнюємо логотип та перемикач мов, коли меню відкрите, щоб уникнути конфліктів */
+  .site-header {
+      padding: 12px 16px; 
+  }
+}
+
+/* Додатково: Вузькі екрани (наприклад, iPhone SE) */
+@media (max-width: 480px) {
+  /* Зменшення розміру тексту для дуже вузьких екранів */
+  #hero-title .main {
+      font-size: 26px;
+  }
+  #hero-title .rotating {
+      font-size: 18px;
+  }
+  .stat {
+      min-width: 100%; /* Статистика займає всю ширину, розташовується стовпцем */
+  }
 }
 
 
@@ -427,20 +563,73 @@ p {
 }
 
 
-.card-panel {
-  background: var(--panel);
-  padding: 14px;
-  border-radius: 12px;
-  box-shadow: var(--card-glow);
-  width: 50%;
+/* ---------- CARD PANELS (Десктоп) ---------- */
+
+aside {
+  display: flex; /* Робимо дочірні елементи горизонтальними */
+  gap: 18px;     /* Встановлюємо відступ між панелями */
+  align-items: flex-start; /* Вирівнюємо елементи по верхньому краю */
+  margin-top: 24px; /* Додаємо відступ від контенту вище */
+  align-items: stretch;
 }
-  /* FAQ */
-  .faq {
-    margin-top:12px;
-  }
-  .faq details {
-    background: var(--glass);
-    padding:10px 12px;
-    border-radius:10px;
-    margin-bottom:8px;
-  }
+.card-panel {
+  background: var(--panel); /* Темно-фіолетовий фон */
+  padding: 18px; 
+  border-radius: var(--radius); 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25); 
+  width: 50%; 
+  flex-shrink: 0;
+  display: flex;
+    flex-direction: column;
+}
+
+.card-panel + .card-panel {
+  margin-top: 0; 
+}
+
+/* ---------- FAQ ---------- */
+
+.faq {
+  margin-top: 12px;
+}
+
+.faq details {
+  /* Припускаємо, що --glass = напівпрозорий темний фон */
+  background: rgba(255, 255, 255, 0.03); 
+  padding: 12px 14px; /* Збільшуємо для кращого вигляду */
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Додаємо тонку рамку */
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  list-style: none; /* Прибираємо стандартний маркер */
+}
+
+/* Додавання власного маркера (трикутника) */
+.faq summary::-webkit-details-marker,
+.faq summary::marker {
+  display: none;
+}
+.faq summary:before {
+  content: "▶";
+  margin-right: 10px;
+  font-size: 10px;
+  transition: transform 0.2s;
+  display: inline-block;
+  color: var(--muted);
+}
+.faq details[open] summary:before {
+  transform: rotate(90deg);
+}
+
+/* Стиль для відповіді FAQ (який був у вас інлайн) */
+.faq details > div {
+  padding-top: 8px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.4;
+}
