@@ -29,40 +29,42 @@ loadPartial('#footer-placeholder','partials/footer.html');
 
 
 // ======= language =======
+
+const REPO_NAME = window.location.pathname.split('/')[1];
+const BASE_PATH = REPO_NAME && document.title !== 'Composer' ? `/${REPO_NAME}` : '';
+
 const defaultLang = localStorage.getItem('lang') || 'ua'; // Використовуємо 'ua' (нижній регістр)
-const defaultLang = localStorage.getItem('lang') || 'fr';
-const defaultLang = localStorage.getItem('lang') || 'en';
+
 
 function applyLang(lang){
-  
-    // 1. Забезпечуємо нижній регістр: На серверах GitHub імена файлів чутливі до регістру.
+    
     const safeLang = lang.toLowerCase(); 
     
-    // 2. Виправляємо шлях: Замінюємо абсолютний шлях (/lang/) на відносний (lang/)
-    // Щоб уникнути помилок, якщо сайт знаходиться в підпапці на GitHub Pages.
-    // Піднімаємося на рівень вище, потім шукаємо папку lang
-  fetch(`../lang/${safeLang}.json`, {cache: "no-store"}) 
-    // ^^^ ЗМІНЕНО: `/lang/${lang}.json` на `lang/${safeLang}.json`
+    // Використовуємо динамічний шлях: BASE_PATH + /lang/ + ua.json
+    fetch(`${BASE_PATH}/lang/${safeLang}.json`, {cache: "no-store"}) 
+    // ^^^ ВИПРАВЛЕНО: Додано BASE_PATH для коректного шляху на GitHub Pages
     
         .then(r => r.json())
         .then(dict => {
-          document.querySelectorAll('[data-i18n]').forEach(el=>{
-            const key = el.getAttribute('data-i18n');
-            if(dict[key]) el.textContent = dict[key];
-          });
-          // Додатковий цикл для елементів по ID (залишаємо як було)
-          for(const k in dict){
-           const el = document.getElementById(k);
-          // Уникаємо перезапису rotating-sub, оскільки його обробляє окрема функція
-            if(el && k !== 'rotating-sub') el.textContent = dict[k];
+            document.querySelectorAll('[data-i18n]').forEach(el=>{
+                const key = el.getAttribute('data-i18n');
+                if(dict[key]) el.textContent = dict[key];
+            });
+            // Додатковий цикл для елементів по ID (залишаємо як було)
+            for(const k in dict){
+               const el = document.getElementById(k);
+             // Уникаємо перезапису rotating-sub, оскільки його обробляє окрема функція
+                if(el && k !== 'rotating-sub') el.textContent = dict[k];
             }
       
             // Запускаємо ротацію підзаголовків з новими словами
             startRotatingSubtitles(dict); 
             
-          localStorage.setItem('lang', lang);
-          })
-          .catch(()=>{ console.warn('Lang file not found'); });
+            localStorage.setItem('lang', lang);
+        })
+        .catch((e)=>{ 
+            console.error('Lang file not found or failed to parse:', e); 
+        });
 }
 
 // ======= init header (menu + lang) =======
@@ -186,6 +188,7 @@ function loadMediaEmbeds() {
 document.addEventListener('DOMContentLoaded', loadMediaEmbeds);
 // Also re-run after partials loaded (in case media block is inside page partial)
 setTimeout(loadMediaEmbeds, 1000);
+
 
 
 
