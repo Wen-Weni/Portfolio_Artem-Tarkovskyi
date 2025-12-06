@@ -27,9 +27,11 @@ function loadPartial(selector, url){
 loadPartial('#header-placeholder','partials/header.html');
 loadPartial('#footer-placeholder','partials/footer.html');
 
-// ======= language =======
+
 // ======= language =======
 const defaultLang = localStorage.getItem('lang') || 'ua'; // Використовуємо 'ua' (нижній регістр)
+const defaultLang = localStorage.getItem('lang') || 'fr';
+const defaultLang = localStorage.getItem('lang') || 'en';
 
 function applyLang(lang){
   
@@ -38,7 +40,8 @@ function applyLang(lang){
     
     // 2. Виправляємо шлях: Замінюємо абсолютний шлях (/lang/) на відносний (lang/)
     // Щоб уникнути помилок, якщо сайт знаходиться в підпапці на GitHub Pages.
-    fetch(`lang/${safeLang}.json`, {cache: "no-store"}) 
+    // Піднімаємося на рівень вище, потім шукаємо папку lang
+  fetch(`../lang/${safeLang}.json`, {cache: "no-store"}) 
     // ^^^ ЗМІНЕНО: `/lang/${lang}.json` на `lang/${safeLang}.json`
     
         .then(r => r.json())
@@ -183,5 +186,6 @@ function loadMediaEmbeds() {
 document.addEventListener('DOMContentLoaded', loadMediaEmbeds);
 // Also re-run after partials loaded (in case media block is inside page partial)
 setTimeout(loadMediaEmbeds, 1000);
+
 
 
