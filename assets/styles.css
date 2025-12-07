@@ -8,90 +8,6 @@ p a:hover {
     color: var(--text);         /* Колір стає світлішим при наведенні курсора */
     text-decoration: none;      /* ПРИБРАНО: Підкреслення відсутнє навіть при наведенні */
 }
-/* ----------  HEADER  ---------- */
-
-.site-header {
-  background: transparent;
-  padding: 16px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 40;
-}
-
-.site-header .wrap {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-weight: 700;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.logo .accent { color: var(--accent); }
-
-.main-nav a {
-  color: var(--muted);
-  margin: 0 12px;
-  text-decoration: none;
-}
-
-.header-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.menu-toggle {
-  display: none;
-  background: transparent;
-  border: 0;
-  color: var(--muted);
-  font-size: 20px;
-}
-
-
-/* ----------  LANGUAGE SWITCH  ---------- */
-#lang-switch {
-  padding: 6px 10px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: var(--text); 
-  border-radius: 8px;
-  cursor: pointer;
-  outline: none;
-  transition: 0.2s;
-  -webkit-appearance: none; 
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' width='16px' height='16px'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 8px center; 
-  padding-right: 28px; 
-}
-
-#lang-switch:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-#lang-switch option {
-  background: #1e1e1e;
-  color: var(--text);
-  padding: 8px;
-  font-size: 16px; 
-}
-
-#lang-switch option:checked,
-#lang-switch option:hover {
-  background: #007bff; 
-  color: #ffffff; 
-}
-
-
 
 /* ----------  HERO  ---------- */
 
@@ -609,4 +525,5 @@ aside {
   line-height: 1.4;
 
 }
+
 
