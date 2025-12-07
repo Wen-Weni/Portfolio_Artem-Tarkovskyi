@@ -1,8 +1,13 @@
-/* ----------  ROOT  ---------- */
+p a {
+    color: var(--stat-blue);        /* Колір, як у параграфа (не синій) */
+    text-decoration: none;      /* ПРИБРАНО: Підкреслення відсутнє */
+    transition: color 0.2s;
+}
 
-
-
-
+p a:hover {
+    color: var(--text);         /* Колір стає світлішим при наведенні курсора */
+    text-decoration: none;      /* ПРИБРАНО: Підкреслення відсутнє навіть при наведенні */
+}
 /* ----------  HEADER  ---------- */
 
 .site-header {
@@ -604,3 +609,4 @@ aside {
   line-height: 1.4;
 
 }
+
